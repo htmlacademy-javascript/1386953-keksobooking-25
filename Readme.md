@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Андрей Козлов](https://up.htmlacademy.ru/javascript/25/user/1386953).
-* Наставник: [Александр Мастеров] (https://htmlacademy.ru/profile/id912463).
+* Наставник: [Александр Мастеров](https://htmlacademy.ru/profile/id912463).
 
 ---
 
