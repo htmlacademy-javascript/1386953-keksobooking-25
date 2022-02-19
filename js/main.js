@@ -19,7 +19,7 @@ function getRandomFloat(min = 1.0, max = 100.0, digits = 1) {
     [min, max] = [max, min];
   }
 
-  const number = Math.abs(Math.random() * (max - min + 1) + min);
+  const number = Math.random() * (max - min + 1) + min;
 
   return +number.toFixed(digits);
 }
