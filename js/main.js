@@ -1,33 +1,25 @@
-const getRandomIntNumber = (min, max) => {
-  min = Math.abs(Math.trunc(min));
-  max = Math.abs(Math.trunc(max));
+const getRandomPositiveInteger = (a, b) => {
+  const min = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
+  const max = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
 
   if (isNaN(min) || isNaN(max)) {
     return 0;
-  }
-
-  if (min > max) {
-    [min, max] = [max, min];
   }
 
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-getRandomIntNumber();
+getRandomPositiveInteger();
 
-const getRandomFloatNumber = (min, max, digits) => {
-  min = Math.abs(min);
-  max = Math.abs(max);
+const getRandomPositiveFloat = (a, b, digits = 1) => {
+  const min = Math.min(Math.abs(a), Math.abs(b));
+  const max = Math.max(Math.abs(a), Math.abs(b));
 
   if (isNaN(min) || isNaN(max)) {
     return 0;
   }
 
-  if (min > max) {
-    [min, max] = [max, min];
-  }
-
   return Number(Math.random() * (max - min + 1) + min).toFixed(digits);
 };
 
-getRandomFloatNumber();
+getRandomPositiveFloat();
