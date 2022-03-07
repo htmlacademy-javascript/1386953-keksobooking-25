@@ -90,3 +90,6 @@ const getRandomPositiveFloat = (a, b, digits = 1) => {
 
   return Number(Math.random() * (max - min + 1) + min).toFixed(digits);
 };
+
+const latitude = getRandomPositiveFloat(MIN_LATITUDE, MAX_LATITUDE, DECIMAL_PLACES);
+const longitude = getRandomPositiveFloat(MIN_LONGITUDE, MAX_LONGITUDE, DECIMAL_PLACES);
