@@ -56,7 +56,7 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-const TITLE = [
+const TITLES = [
   'Для самых непритязятельных.',
   'СРОЧНО!!!',
   'ТОЛЬКО НА ДЛИТЕЛЬНЫЙ СРОК!!!',
@@ -64,7 +64,7 @@ const TITLE = [
   'Не проходите мимо!'
 ];
 
-const DESCRIPTION = [
+const DESCRIPTIONS = [
   'Большая и уютная, заменит дом родной.',
   'Все удобства для людей и не только.',
 ];
@@ -94,18 +94,20 @@ const getRandomPositiveFloat = (a, b, digits = 1) => {
 const latitude = getRandomPositiveFloat(MIN_LATITUDE, MAX_LATITUDE, DECIMAL_PLACES);
 const longitude = getRandomPositiveFloat(MIN_LONGITUDE, MAX_LONGITUDE, DECIMAL_PLACES);
 
-const getRandomArrayElement = (elements) =>
-  elements[getRandomPositiveInteger(0, elements.length - 1)];
+const getRandomArrayElement = (items) =>
+  items[getRandomPositiveInteger(0, items.length - 1)];
 
-const getRandomArrayElementAndRemoveIt = (elements) =>
-  elements.splice(getRandomPositiveInteger(0, elements.length - 1), 1);
+const getRandomArrayElementAndRemoveIt = (items) =>
+  items.splice(getRandomPositiveInteger(0, items.length - 1), 1);
 
-const getRandomArrayElements = (elements) => elements.filter(() => Math.random() > 0.5);
+const getRandomArrayElements = (items) => items.filter(() => Math.random() > 0.5);
 
-const createAd = () => ({
-  avatar: getRandomArrayElementAndRemoveIt(AVATAR_IMAGES),
+const createAdvert = () => ({
+  author: {
+    avatar: getRandomArrayElementAndRemoveIt(AVATAR_IMAGES)
+  },
   offer: {
-    title: getRandomArrayElement(TITLE),
+    title: getRandomArrayElement(TITLES),
     address: `${latitude}, ${longitude}`,
     price: getRandomPositiveInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE),
     type: getRandomArrayElement(TYPES),
@@ -114,14 +116,14 @@ const createAd = () => ({
     checkin: getRandomArrayElement(CHECK_IN_VALUES),
     checkout: getRandomArrayElement(CHECK_OUT_VALUES),
     features: getRandomArrayElements(FEATURES),
-    description: getRandomArrayElement(DESCRIPTION),
+    description: getRandomArrayElement(DESCRIPTIONS),
     photos: getRandomArrayElements(PHOTOS)
   },
   location: {
-    lat: latitude,
-    lng: longitude
+    lat: +latitude,
+    lng: +longitude
   }
 });
 
-const createAds = () => Array.from({ length: AD_COUNT }, createAd);
-createAds();
+const createAdverts = () => Array.from({ length: AD_COUNT }, createAdvert);
+createAdverts();
