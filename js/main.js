@@ -97,14 +97,14 @@ const longitude = getRandomPositiveFloat(MIN_LONGITUDE, MAX_LONGITUDE, DECIMAL_P
 const getRandomArrayElement = (items) =>
   items[getRandomPositiveInteger(0, items.length - 1)];
 
-const getRandomArrayElementAndRemoveIt = (items) =>
-  items.splice(getRandomPositiveInteger(0, items.length - 1), 1);
+const getRandomArrayElementToString = (items) =>
+  String(items.splice(getRandomPositiveInteger(0, items.length - 1), 1));
 
 const getRandomArrayElements = (items) => items.filter(() => Math.random() > 0.5);
 
 const createAdvert = () => ({
   author: {
-    avatar: getRandomArrayElementAndRemoveIt(AVATAR_IMAGES)
+    avatar: getRandomArrayElementToString(AVATAR_IMAGES)
   },
   offer: {
     title: getRandomArrayElement(TITLES),
@@ -120,8 +120,8 @@ const createAdvert = () => ({
     photos: getRandomArrayElements(PHOTOS)
   },
   location: {
-    lat: +latitude,
-    lng: +longitude
+    lat: Number(latitude),
+    lng: Number(longitude)
   }
 });
 
