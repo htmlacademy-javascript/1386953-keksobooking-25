@@ -93,3 +93,11 @@ const getRandomPositiveFloat = (a, b, digits = 1) => {
 
 const latitude = getRandomPositiveFloat(MIN_LATITUDE, MAX_LATITUDE, DECIMAL_PLACES);
 const longitude = getRandomPositiveFloat(MIN_LONGITUDE, MAX_LONGITUDE, DECIMAL_PLACES);
+
+const getRandomArrayElement = (elements) =>
+  elements[getRandomPositiveInteger(0, elements.length - 1)];
+
+const getRandomArrayElementAndRemoveIt = (elements) =>
+  elements.splice(getRandomPositiveInteger(0, elements.length - 1), 1);
+
+const getRandomArrayElements = (elements) => elements.filter(() => Math.random() > 0.5);
