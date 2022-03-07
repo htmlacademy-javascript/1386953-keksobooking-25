@@ -101,3 +101,27 @@ const getRandomArrayElementAndRemoveIt = (elements) =>
   elements.splice(getRandomPositiveInteger(0, elements.length - 1), 1);
 
 const getRandomArrayElements = (elements) => elements.filter(() => Math.random() > 0.5);
+
+const createAd = () => ({
+  avatar: getRandomArrayElementAndRemoveIt(AVATAR_IMAGES),
+  offer: {
+    title: getRandomArrayElement(TITLE),
+    address: `${latitude}, ${longitude}`,
+    price: getRandomPositiveInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE),
+    type: getRandomArrayElement(TYPES),
+    rooms: getRandomPositiveInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE),
+    guests: getRandomPositiveInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE),
+    checkin: getRandomArrayElement(CHECK_IN_VALUES),
+    checkout: getRandomArrayElement(CHECK_OUT_VALUES),
+    features: getRandomArrayElements(FEATURES),
+    description: getRandomArrayElement(DESCRIPTION),
+    photos: getRandomArrayElements(PHOTOS)
+  },
+  location: {
+    lat: latitude,
+    lng: longitude
+  }
+});
+
+const createAds = () => Array.from({ length: AD_COUNT }, createAd);
+createAds();
