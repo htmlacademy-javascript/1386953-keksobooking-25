@@ -91,9 +91,6 @@ const getRandomPositiveFloat = (a, b, digits = 1) => {
   return Number(Math.random() * (max - min + 1) + min).toFixed(digits);
 };
 
-const latitude = getRandomPositiveFloat(MIN_LATITUDE, MAX_LATITUDE, DECIMAL_PLACES);
-const longitude = getRandomPositiveFloat(MIN_LONGITUDE, MAX_LONGITUDE, DECIMAL_PLACES);
-
 const getRandomArrayElement = (items) =>
   items[getRandomPositiveInteger(0, items.length - 1)];
 
@@ -102,28 +99,33 @@ const getRandomArrayElementToString = (items) =>
 
 const getRandomArrayElements = (items) => items.filter(() => Math.random() > 0.5);
 
-const createAdvert = () => ({
-  author: {
-    avatar: getRandomArrayElementToString(AVATAR_IMAGES)
-  },
-  offer: {
-    title: getRandomArrayElement(TITLES),
-    address: `${latitude}, ${longitude}`,
-    price: getRandomPositiveInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE),
-    type: getRandomArrayElement(TYPES),
-    rooms: getRandomPositiveInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE),
-    guests: getRandomPositiveInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE),
-    checkin: getRandomArrayElement(CHECK_IN_VALUES),
-    checkout: getRandomArrayElement(CHECK_OUT_VALUES),
-    features: getRandomArrayElements(FEATURES),
-    description: getRandomArrayElement(DESCRIPTIONS),
-    photos: getRandomArrayElements(PHOTOS)
-  },
-  location: {
-    lat: Number(latitude),
-    lng: Number(longitude)
-  }
-});
+const createAdvert = () => {
+  const latitude = getRandomPositiveFloat(MIN_LATITUDE, MAX_LATITUDE, DECIMAL_PLACES);
+  const longitude = getRandomPositiveFloat(MIN_LONGITUDE, MAX_LONGITUDE, DECIMAL_PLACES);
+
+  return {
+    author: {
+      avatar: getRandomArrayElementToString(AVATAR_IMAGES)
+    },
+    offer: {
+      title: getRandomArrayElement(TITLES),
+      address: `${latitude}, ${longitude}`,
+      price: getRandomPositiveInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE),
+      type: getRandomArrayElement(TYPES),
+      rooms: getRandomPositiveInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE),
+      guests: getRandomPositiveInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE),
+      checkin: getRandomArrayElement(CHECK_IN_VALUES),
+      checkout: getRandomArrayElement(CHECK_OUT_VALUES),
+      features: getRandomArrayElements(FEATURES),
+      description: getRandomArrayElement(DESCRIPTIONS),
+      photos: getRandomArrayElements(PHOTOS)
+    },
+    location: {
+      lat: Number(latitude),
+      lng: Number(longitude)
+    }
+  };
+};
 
 const createAdverts = () => Array.from({ length: AD_COUNT }, createAdvert);
 createAdverts();
