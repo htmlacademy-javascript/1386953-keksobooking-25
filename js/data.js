@@ -72,8 +72,10 @@ const DESCRIPTIONS = [
 ];
 
 const createAdvert = () => {
-  const latitude = getRandomPositiveFloat(MIN_LATITUDE, MAX_LATITUDE, DECIMAL_PLACES);
-  const longitude = getRandomPositiveFloat(MIN_LONGITUDE, MAX_LONGITUDE, DECIMAL_PLACES);
+  const location = {
+    lat: Number(getRandomPositiveFloat(MIN_LATITUDE, MAX_LATITUDE, DECIMAL_PLACES)),
+    lng: Number(getRandomPositiveFloat(MIN_LONGITUDE, MAX_LONGITUDE, DECIMAL_PLACES)),
+  };
 
   return {
     author: {
@@ -81,7 +83,7 @@ const createAdvert = () => {
     },
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: `${latitude}, ${longitude}`,
+      address: `${location.lat}, ${location.lng}`,
       price: getRandomPositiveInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE),
       type: getRandomArrayElement(TYPES),
       rooms: getRandomPositiveInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE),
@@ -92,10 +94,7 @@ const createAdvert = () => {
       description: getRandomArrayElement(DESCRIPTIONS),
       photos: getRandomArrayElements(PHOTOS)
     },
-    location: {
-      lat: Number(latitude),
-      lng: Number(longitude)
-    }
+    location
   };
 };
 
