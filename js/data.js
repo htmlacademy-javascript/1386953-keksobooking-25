@@ -1,4 +1,10 @@
-import { getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, getRandomArrayElementToString, getRandomArrayElements } from './utils.js';
+import {
+  getRandomPositiveInteger,
+  getRandomPositiveFloat,
+  getRandomArrayElement,
+  getRandomArrayElementToString,
+  getRandomArrayElements
+} from './random.js';
 
 const AD_COUNT = 10;
 
