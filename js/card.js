@@ -1,14 +1,11 @@
-import { createAdverts } from './data.js';
-
 const map = document.querySelector('.map');
 const mapCanvas = map.querySelector('.map__canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 const cardFragment = document.createDocumentFragment();
 const cardType = document.querySelector('#type');
 const cardTypeValues = cardType.querySelectorAll('option');
-const adverts = createAdverts();
 
-adverts.forEach(({ author, offer }) => {
+const renderCard = (({ author, offer }) => {
   const cardList = cardTemplate.cloneNode(true);
   const cardFeaturesContainer = cardList.querySelector('.popup__features');
   const cardFeaturesList = cardFeaturesContainer.querySelectorAll('.popup__feature');
@@ -51,3 +48,4 @@ adverts.forEach(({ author, offer }) => {
 });
 
 mapCanvas.append(cardFragment.children[0]);
+export { renderCard };
