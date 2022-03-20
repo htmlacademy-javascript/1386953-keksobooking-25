@@ -29,7 +29,17 @@ const renderFeaturesList = (featuresList, features, classPrefix) => {
   });
 };
 
+const renderPhotos = (container, template, photos) => {
+  photos.forEach((photo) => {
+    const cardPhoto = template.cloneNode(true);
+    cardPhoto.src = photo;
+
+    container.append(cardPhoto);
+  });
+};
+
 export {
   getPopupTextCapacity,
-  renderFeaturesList
+  renderFeaturesList,
+  renderPhotos
 };
