@@ -39,6 +39,7 @@ const renderPhotos = (container, template, photos) => {
 };
 
 export {
+  pluralizeGuestsInGenitive,
   getPopupTextCapacity,
   renderFeaturesList,
   renderPhotos
