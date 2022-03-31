@@ -1,67 +1,58 @@
-const advertForm = document.querySelector('.ad-form');
+const adForm = document.querySelector('.ad-form');
 
-const pristine = new Pristine(advertForm, {
+const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
   successClass: 'ad-form__element--valid',
   errorTextParent: 'ad-form__element',
   errorTextTag: 'div',
   errorTextClass: 'ad-form__error'
-}, false);
+});
+
 // проверка поля заголовка
-const formInputTitle = advertForm.querySelector('#title');
-
-function validateInputTitle(value) {
-  return value.length >= 30 && value.length <= 100;
-}
-
+const formInputTitle = adForm.querySelector('#title');
+const validateInputTitle = (value) => value.length >= 30 && value.length <= 100;
 pristine.addValidator(formInputTitle, validateInputTitle, 'от 30 до 100 символов');
 
 // проверка поля цены
-const formInputPrice = advertForm.querySelector('#price');
-
-function validateInputPrice(value) {
-  return value >= 0 && value <= 100000;
-}
-
+const formInputPrice = adForm.querySelector('#price');
+const validateInputPrice = (value) => value >= 0 && value <= 100000;
 pristine.addValidator(formInputPrice, validateInputPrice, 'от 0 до 100000');
 
 // проверка селектора количества гостей
-const guestCapacity = advertForm.querySelector('#capacity');
-
-const maxGuestCapacity = {
-  1: 1,
-  2: [1, 2],
-  3: [1, 2, 3],
-  100: 0
+const roomNumber = adForm.querySelector('#room_number');
+const roomCapacity = adForm.querySelector('#capacity');
+const roomToCapacity = {
+  1: ['1'],
+  2: ['1', '2'],
+  3: ['1', '2', '3'],
+  100: ['0']
 };
 
-function validateGuestCapacity(value) {
-  const roomsNumber = advertForm.querySelector('[name="room_number"]:checked');
-  return value.length && parseInt(value, 10) <= maxGuestCapacity[roomsNumber.value];
+const validateRoomAndCapacity = (rooms, capacity) => {
+  const validRooms = roomToCapacity[rooms];
+  const validCapacity = validRooms.includes(capacity);
 
-}
+  return validCapacity;
+};
+const validateCapacity = () => {
+  const rooms = roomNumber.value;
+  const capacity = roomCapacity.value;
 
-// function onRoomChange(evt) {
-//   if (evt.target.matches('option')) {
-//     capacityAmount.value = evt.target.value;
-//   }
-// }
-// advertForm.addEventListener('change', onRoomChange);
+  return validateRoomAndCapacity(rooms, capacity);
+};
 
-// function validateCapacity() {
-//   return capacityAmount.value <= roomAmount.value;
-// }
+const capacityMessages = {
+  1: 'для 1 гостя',
+  2: 'для 1 или 2 гостей',
+  3: 'от 1 до 3 гостей',
+  100: 'не для гостей'
+};
+const getCapacityErrorMessage = () => capacityMessages[roomNumber.value];
 
-// function capacityErrorMessage(value) {
-//   if (capacityAmount.value > roomAmount.value) {
-//     return `не больше ${value} ${pluralizeGuestsInGenitive(roomAmount.value)}`;
-//   }
-// }
+pristine.addValidator(roomCapacity, validateCapacity, getCapacityErrorMessage);
 
-pristine.addValidator(guestCapacity, validateGuestCapacity);
-
-advertForm.addEventListener('submit', (evt) => {
+adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
