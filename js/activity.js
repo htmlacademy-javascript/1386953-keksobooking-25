@@ -14,7 +14,6 @@ const enableForm = () => {
 const disableForm = () => {
   adForm.classList.add('ad-form--disabled');
   fieldSets.forEach((fieldSet) => fieldSet.setAttribute('disabled', 'disabled'));
-  // clearCard();
 };
 
 document.addEventListener('keydown', (evt) => {
