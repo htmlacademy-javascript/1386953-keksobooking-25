@@ -37,5 +37,5 @@ const renderCard = (({ author, offer }) => {
 });
 
 export {
-  renderCard
+  renderCard,
 };
