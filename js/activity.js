@@ -1,5 +1,4 @@
 import { isEscapeKey, isEnterKey } from './utils.js';
-// import { clearCard } from './card.js';
 
 const adForm = document.querySelector('.ad-form');
 const fieldSets = adForm.querySelectorAll('.ad-form__element');

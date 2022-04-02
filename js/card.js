@@ -36,13 +36,6 @@ const renderCard = (({ author, offer }) => {
   return card;
 });
 
-// const clearCard = () => {
-//   cardTemplate.innerHTML = '';
-
-//   return cardTemplate;
-// };
-
 export {
   renderCard,
-  // clearCard
 };
