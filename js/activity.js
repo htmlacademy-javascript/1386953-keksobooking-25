@@ -1,32 +1,46 @@
-import { isEscapeKey, isEnterKey } from './utils.js';
+import { isEscapeKey, isEnterKey, formElementsDisabledMode } from './utils.js';
+
+const filtersForm = document.querySelector('.map__filters');
+const filtersFormElements = filtersForm.querySelectorAll('.map__filter');
 
 const adForm = document.querySelector('.ad-form');
-const fieldSets = adForm.querySelectorAll('.ad-form__element');
+const adFormElements = adForm.querySelectorAll('.ad-form__element');
+
+filtersForm.classList.add('map__filters--disabled');
+formElementsDisabledMode(filtersFormElements, true);
 
 adForm.classList.add('ad-form--disabled');
-fieldSets.forEach((fieldSet) => fieldSet.setAttribute('disabled', 'disabled'));
+formElementsDisabledMode(adFormElements, true);
 
-const enableForm = () => {
+
+const enableForms = () => {
+  filtersForm.classList.remove('map__filters--disabled');
+  formElementsDisabledMode(filtersFormElements, false);
+
   adForm.classList.remove('ad-form--disabled');
-  fieldSets.forEach((fieldSet) => fieldSet.removeAttribute('disabled', 'disabled'));
+  formElementsDisabledMode(adFormElements, false);
 };
 
-const disableForm = () => {
+const disableForms = () => {
+  filtersForm.classList.add('map__filters--disabled');
+  formElementsDisabledMode(filtersFormElements, true);
+  filtersForm.reset();
+
   adForm.classList.add('ad-form--disabled');
-  fieldSets.forEach((fieldSet) => fieldSet.setAttribute('disabled', 'disabled'));
+  formElementsDisabledMode(adFormElements, true);
+  adForm.reset();
 };
 
 document.addEventListener('keydown', (evt) => {
   if (isEnterKey(evt)) {
-    enableForm();
-    document.removeEventListener('keydown', disableForm);
+    evt.preventDefault();
+    enableForms();
   }
 });
 
 document.addEventListener('keydown', (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    disableForm();
-    document.removeEventListener('keydown', enableForm);
+    disableForms();
   }
 });

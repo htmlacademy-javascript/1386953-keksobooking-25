@@ -38,6 +38,12 @@ const renderPhotos = (container, template, photos) => {
   });
 };
 
+const formElementsDisabledMode = (elements, bool) => {
+  elements.forEach((element) => {
+    element.disabled = bool;
+  });
+};
+
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const isEnterKey = (evt) => evt.key === 'Enter';
@@ -47,6 +53,7 @@ export {
   getPopupTextCapacity,
   renderFeaturesList,
   renderPhotos,
+  formElementsDisabledMode,
   isEscapeKey,
   isEnterKey
 };
