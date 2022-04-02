@@ -1,5 +1,5 @@
 import { isEscapeKey, isEnterKey } from './utils.js';
-import { clearCard } from './card.js';
+// import { clearCard } from './card.js';
 
 const adForm = document.querySelector('.ad-form');
 const fieldSets = adForm.querySelectorAll('.ad-form__element');
@@ -18,7 +18,7 @@ const enableForm = () => {
 const disableForm = () => {
   adForm.classList.add('ad-form--disabled');
   fieldSets.forEach((fieldSet) => fieldSet.setAttribute('disabled', 'disabled'));
-  clearCard();
+  // clearCard();
 
   document.removeEventListener('keydown', enableForm);
 };
