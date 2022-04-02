@@ -38,13 +38,9 @@ const renderPhotos = (container, template, photos) => {
   });
 };
 
-const isEscapeKey = (evt) => {
-  return evt.key === 'Escape';
-};
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const isEnterKey = (evt) => {
-  return evt.key === 'Enter';
-};
+const isEnterKey = (evt) => evt.key === 'Enter';
 
 export {
   pluralizeGuestsInGenitive,
