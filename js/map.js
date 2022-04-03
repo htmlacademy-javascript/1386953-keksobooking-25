@@ -78,7 +78,7 @@ const createPoints = (point) => {
 points.forEach((point) => {
   createPoints(point);
 });
-addressField.textContent = '1234';
+
 //Событие перемещения главного маркера пользователем на карте
 mainPinMarker.on('moveend', (evt) => {
   const address = evt.target.getLatLng();
