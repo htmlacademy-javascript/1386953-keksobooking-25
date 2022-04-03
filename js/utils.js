@@ -38,22 +38,16 @@ const renderPhotos = (container, template, photos) => {
   });
 };
 
-const formElementsDisabledMode = (elements, bool) => {
+const setFormElementsDisabledMode = (elements, bool) => {
   elements.forEach((element) => {
     element.disabled = bool;
   });
 };
-
-const isEscapeKey = (evt) => evt.key === 'Escape';
-
-const isEnterKey = (evt) => evt.key === 'Enter';
 
 export {
   pluralizeGuestsInGenitive,
   getPopupTextCapacity,
   renderFeaturesList,
   renderPhotos,
-  formElementsDisabledMode,
-  isEscapeKey,
-  isEnterKey
+  setFormElementsDisabledMode
 };
