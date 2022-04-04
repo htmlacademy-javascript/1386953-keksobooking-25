@@ -1,5 +1,11 @@
 const adForm = document.querySelector('.ad-form');
 
+const MIN_TEXT_LENGTH = 30;
+const MAX_TEXT_LENGTH = 100;
+
+const MIN_PRICE_VALUE = 0;
+const MAX_PRICE_VALUE = 100000;
+
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
@@ -10,11 +16,11 @@ const pristine = new Pristine(adForm, {
 });
 
 const formInputTitle = adForm.querySelector('#title');
-const validateInputTitle = (value) => value.length >= 30 && value.length <= 100;
+const validateInputTitle = (value) => value.length >= MIN_TEXT_LENGTH && value.length <= MAX_TEXT_LENGTH;
 pristine.addValidator(formInputTitle, validateInputTitle, 'от 30 до 100 символов');
 
 const formInputPrice = adForm.querySelector('#price');
-const validateInputPrice = (value) => value >= 0 && value <= 100000;
+const validateInputPrice = (value) => value >= MIN_PRICE_VALUE && value <= MAX_PRICE_VALUE;
 pristine.addValidator(formInputPrice, validateInputPrice, 'от 0 до 100000');
 
 const roomNumber = adForm.querySelector('#room_number');
