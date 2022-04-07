@@ -2,17 +2,19 @@ import {
   getPopupTextCapacity,
   renderFeaturesList,
   renderPhotos
-} from './utils/form.js';
+} from './utils/card.js';
 
-const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const offerTypesToRus = {
+const OFFER_TYPES_TO_RUS = {
   'palace': 'Дворец',
   'flat': 'Квартира',
   'house': 'Дом',
   'bungalow': 'Бунгало',
   'hotel': 'Отель'
 };
+
+const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+
 
 const renderCard = (({ author, offer }) => {
   const card = cardTemplate.cloneNode(true);
@@ -28,7 +30,7 @@ const renderCard = (({ author, offer }) => {
   card.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
   card.querySelector('.popup__description').textContent = offer.description;
   card.querySelector('.popup__text--capacity').textContent = getPopupTextCapacity(offer.rooms, offer.guests);
-  card.querySelector('.popup__type').textContent = offerTypesToRus[offer.type];
+  card.querySelector('.popup__type').textContent = OFFER_TYPES_TO_RUS[offer.type];
 
   renderFeaturesList(cardFeaturesList, offer.features, 'popup__feature--');
   renderPhotos(cardPhotoContainer, cardPhotoTemplate, offer.photos);

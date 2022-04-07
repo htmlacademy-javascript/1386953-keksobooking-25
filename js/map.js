@@ -1,24 +1,36 @@
-import { enableForms, disableForms } from './activity.js';
+import { enableForms, disableForms } from './utils/activity.js';
 import { renderCard } from './card.js';
 import { createAdverts } from './data.js';
 
-const resetButton = document.querySelector('.ad-form__reset');
-const addressField = document.querySelector('#address');
-const mapContainer = document.querySelector('.map');
-const mapCanvas = mapContainer.querySelector('.map__canvas');
+
+const MAP_COORDINATES_DEFAULT = {
+  lat: 35.681729,
+  lng: 139.753927
+};
+const MAP_ZOOM_DEFAULT = 8;
+const DECIMAL_PLACES = 5;
+
+const MAIN_PIN_OPTION = {
+  pathToPic: '../img/main-pin.svg',
+  sizeInPixels: [52, 52],
+  pinTipCoordinates: [26, 52]
+};
+
+const PIN_OPTION = {
+  pathToPic: '../img/pin.svg',
+  sizeInPixels: [40, 40],
+  pinTipCoordinates: [20, 40]
+};
+
 
 //Создание карты
-const map = L.map('map-canvas').on('load', () => {
-  if (mapCanvas) {
-    enableForms();
-  } else {
-    disableForms();
-  }
-}).setView(
-  {
-    lat: 35.681729,
-    lng: 139.753927
-  }, 8);
+const map = L.map('map-canvas');
+
+disableForms();
+
+map.on('load', () => {
+  enableForms();
+}).setView(MAP_COORDINATES_DEFAULT, MAP_ZOOM_DEFAULT);
 
 //Добавление оболочки карты
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -29,17 +41,14 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 //Создание главной иконки маркера
 const mainPinIcon = L.icon(
   {
-    iconUrl: '../img/main-pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
+    iconUrl: MAIN_PIN_OPTION.pathToPic,
+    iconSize: MAIN_PIN_OPTION.sizeInPixels,
+    iconAnchor: MAIN_PIN_OPTION.pinTipCoordinates
   });
 
 //Создания главного маркера
 const mainPinMarker = L.marker(
-  {
-    lat: 35.681729,
-    lng: 139.753927
-  },
+  MAP_COORDINATES_DEFAULT,
   {
     draggable: true,
     icon: mainPinIcon
@@ -48,53 +57,50 @@ const mainPinMarker = L.marker(
 //Добавление главного маркера на карту
 mainPinMarker.addTo(map);
 //Создание иконки для маркеров объявлений
-const pointsIcon = L.icon(
+const pinIcon = L.icon(
   {
-    iconUrl: '../img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40]
+    iconUrl: PIN_OPTION.pathToPic,
+    iconSize: PIN_OPTION.sizeInPixels,
+    iconAnchor: PIN_OPTION.pinTipCoordinates
   }
 );
 //Создание слоя для добавления группы маркеров
 const markerGroup = L.layerGroup().addTo(map);
 
 //Создание и добавление маркеров с балунами на карту из объявлений
-const points = createAdverts();
+const pinMarkers = createAdverts();
 
-const createPoints = (point) => {
-  const { location } = point;
+const createPinMarkers = (pin) => {
+  const { location } = pin;
   const marker = L.marker(
     {
       lat: location.lat,
       lng: location.lng
     },
     {
-      icon: pointsIcon
+      icon: pinIcon
     },
   );
-  marker.addTo(markerGroup).bindPopup(renderCard(point));
+  marker.addTo(markerGroup).bindPopup(renderCard(pin));
 };
 
-points.forEach((point) => {
-  createPoints(point);
+pinMarkers.forEach((pin) => {
+  createPinMarkers(pin);
 });
 
 //Событие перемещения главного маркера пользователем на карте
-mainPinMarker.on('moveend', (evt) => {
-  const address = evt.target.getLatLng();
-  addressField.value = `${(address.lat).toFixed(5)}, ${(address.lng).toFixed(5)}`;
+const addressField = document.querySelector('#address');
+
+
+mainPinMarker.on('move', (evt) => {
+  const coordinates = evt.target.getLatLng();
+  addressField.value = `${(coordinates.lat).toFixed(DECIMAL_PLACES)}, ${(coordinates.lng).toFixed(DECIMAL_PLACES)}`;
 });
 //Сбрас настроек по умолчанию, удаление меток объявлений
-resetButton.addEventListener('click', () => {
-  mainPinMarker.setLatLng(
-    {
-      lat: 35.681729,
-      lng: 139.753927
-    });
-  map.setView(
-    {
-      lat: 35.681729,
-      lng: 139.753927
-    }, 8);
+const resetMapToDefault = () => {
+  mainPinMarker.setLatLng(MAP_COORDINATES_DEFAULT);
+  map.setView(MAP_COORDINATES_DEFAULT, MAP_ZOOM_DEFAULT);
   markerGroup.clearLayers();
-});
+};
+
+export { resetMapToDefault };
