@@ -2,7 +2,7 @@ import {
   getPopupTextCapacity,
   renderFeaturesList,
   renderPhotos
-} from './utils.js';
+} from './utils/form.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 

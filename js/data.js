@@ -4,7 +4,7 @@ import {
   getRandomArrayElement,
   getRandomArrayElementToString,
   getRandomArrayElements
-} from './random.js';
+} from './utils/random.js';
 
 const AD_COUNT = 10;
 

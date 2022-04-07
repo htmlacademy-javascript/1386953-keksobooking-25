@@ -1,4 +1,4 @@
-import { setFormElementsDisabledMode } from './utils.js';
+import { setFormElementsDisabledMode } from './form.js';
 
 const filtersForm = document.querySelector('.map__filters');
 const filtersFormElements = filtersForm.querySelectorAll('.map__filter');
