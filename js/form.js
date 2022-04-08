@@ -23,6 +23,14 @@ const CAPACITY_MESSAGES = {
   100: 'не для гостей'
 };
 
+const HOUSING_COST = {
+  'bungalow': [0],
+  'flat': [1000],
+  'hotel': [3000],
+  'house': [5000],
+  'palace': [10000],
+};
+
 const adForm = document.querySelector('.ad-form');
 
 const pristine = new Pristine(adForm, {
@@ -37,10 +45,6 @@ const pristine = new Pristine(adForm, {
 const formInputTitle = adForm.querySelector('#title');
 const validateInputTitle = (value) => value.length >= TEXT_LENGTH.min && value.length <= TEXT_LENGTH.max;
 pristine.addValidator(formInputTitle, validateInputTitle, 'от 30 до 100 символов');
-
-const formInputPrice = adForm.querySelector('#price');
-const validateInputPrice = (value) => value >= PRICE_VALUE.min && value <= PRICE_VALUE.max;
-pristine.addValidator(formInputPrice, validateInputPrice, 'от 0 до 100000');
 
 const roomNumber = adForm.querySelector('#room_number');
 const roomCapacity = adForm.querySelector('#capacity');
@@ -61,6 +65,27 @@ const validateCapacity = () => {
 const getCapacityErrorMessage = () => CAPACITY_MESSAGES[roomNumber.value];
 
 pristine.addValidator(roomCapacity, validateCapacity, getCapacityErrorMessage);
+
+const formInputPrice = adForm.querySelector('#price');
+const validateInputPrice = (value) => value >= PRICE_VALUE.min && value <= PRICE_VALUE.max;
+pristine.addValidator(formInputPrice, validateInputPrice, 'от 0 до 100000');
+
+const housingType = adForm.querySelector('#type');
+const validateHousingAndPrice = (type, price) => {
+  const validHousingCost = HOUSING_COST[type];
+  const validPrice = (validHousingCost <= price);
+
+  return validPrice;
+};
+
+const validateCost = () => {
+  const type = housingType.value;
+  const price = formInputPrice.value;
+
+  return validateHousingAndPrice(type, price);
+};
+
+pristine.addValidator(formInputPrice, validateCost, 'error');
 
 const resetButton = document.querySelector('.ad-form__reset');
 resetButton.addEventListener('click', resetMapToDefault);
