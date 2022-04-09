@@ -1,22 +1,26 @@
-import { resetMapToDefault } from './map.js';
+import {
+  setDisabled,
+  unsetDisabled,
+} from './utils/dom.js';
 
-const TEXT_LENGTH = {
-  min: 30,
-  max: 100
+
+const textLength = {
+  MIN: 30,
+  MAX: 100
 };
-const PRICE_VALUE = {
-  min: 0,
-  max: 100000
+const priceValue = {
+  MIN: 0,
+  MAX: 100000
 };
 
-const ROOM_TO_CAPACITY = {
+const roomToCapacity = {
   1: ['1'],
   2: ['1', '2'],
   3: ['1', '2', '3'],
   100: ['0']
 };
 
-const CAPACITY_MESSAGES = {
+const capacityMessages = {
   1: 'для 1 гостя',
   2: 'для 1 или 2 гостей',
   3: 'от 1 до 3 гостей',
@@ -24,14 +28,24 @@ const CAPACITY_MESSAGES = {
 };
 
 const HOUSING_COST = {
-  'bungalow': [0],
-  'flat': [1000],
-  'hotel': [3000],
-  'house': [5000],
-  'palace': [10000],
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
 };
 
+const FRACTION_TRUNCATE_ADDRESS = 5;
+
 const adForm = document.querySelector('.ad-form');
+const formInputTitle = adForm.querySelector('#title');
+const roomNumber = adForm.querySelector('#room_number');
+const roomCapacity = adForm.querySelector('#capacity');
+const formInputPrice = adForm.querySelector('#price');
+const housingType = adForm.querySelector('#type');
+const resetButton = adForm.querySelector('.ad-form__reset');
+const addressField = adForm.querySelector('#address');
+const adFormFiedsets = adForm.querySelectorAll('.ad-form__element');
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -42,19 +56,18 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'ad-form__error'
 });
 
-const formInputTitle = adForm.querySelector('#title');
-const validateInputTitle = (value) => value.length >= TEXT_LENGTH.min && value.length <= TEXT_LENGTH.max;
-pristine.addValidator(formInputTitle, validateInputTitle, 'от 30 до 100 символов');
 
-const roomNumber = adForm.querySelector('#room_number');
-const roomCapacity = adForm.querySelector('#capacity');
+const validateInputTitle = (value) => value.length >= textLength.MIN && value.length <= textLength.MAX;
+
+const validateInputPrice = (value) => value >= priceValue.MIN && value <= priceValue.MAX;
 
 const validateRoomAndCapacity = (rooms, capacity) => {
-  const validRooms = ROOM_TO_CAPACITY[rooms];
+  const validRooms = roomToCapacity[rooms];
   const validCapacity = validRooms.includes(capacity);
 
   return validCapacity;
 };
+
 const validateCapacity = () => {
   const rooms = roomNumber.value;
   const capacity = roomCapacity.value;
@@ -62,18 +75,9 @@ const validateCapacity = () => {
   return validateRoomAndCapacity(rooms, capacity);
 };
 
-const getCapacityErrorMessage = () => CAPACITY_MESSAGES[roomNumber.value];
-
-pristine.addValidator(roomCapacity, validateCapacity, getCapacityErrorMessage);
-
-const formInputPrice = adForm.querySelector('#price');
-const validateInputPrice = (value) => value >= PRICE_VALUE.min && value <= PRICE_VALUE.max;
-pristine.addValidator(formInputPrice, validateInputPrice, 'от 0 до 100000');
-
-const housingType = adForm.querySelector('#type');
 const validateHousingAndPrice = (type, price) => {
-  const validHousingCost = HOUSING_COST[type];
-  const validPrice = (validHousingCost <= price);
+  const minCost = HOUSING_COST[type];
+  const validPrice = (minCost <= price);
 
   return validPrice;
 };
@@ -85,12 +89,68 @@ const validateCost = () => {
   return validateHousingAndPrice(type, price);
 };
 
+const getCapacityErrorMessage = () => capacityMessages[roomNumber.value];
+
+
+pristine.addValidator(formInputTitle, validateInputTitle, 'от 30 до 100 символов');
+pristine.addValidator(formInputPrice, validateInputPrice, 'от 0 до 100000');
+pristine.addValidator(roomCapacity, validateCapacity, getCapacityErrorMessage);
 pristine.addValidator(formInputPrice, validateCost, 'error');
 
-const resetButton = document.querySelector('.ad-form__reset');
-resetButton.addEventListener('click', resetMapToDefault);
+
+const enable = () => {
+  adForm.classList.remove('ad-form--disabled');
+  unsetDisabled(adFormFiedsets);
+};
+
+const disable = () => {
+  adForm.classList.add('ad-form--disabled');
+  setDisabled(adFormFiedsets);
+};
+
+const reset = () => {
+  adForm.reset();
+};
+
+const renderAddressInput = ({ lat, lng }) => {
+  addressField.value = (
+    `${lat.toFixed(FRACTION_TRUNCATE_ADDRESS)}, ${lng.toFixed(FRACTION_TRUNCATE_ADDRESS)}`
+  );
+};
+
+
+let resetCallback = null;
+let submitCallback = null;
+
+const setResetHandler = (callback) => {
+  resetCallback = callback;
+};
+
+const setSubmitHandler = (callback) => {
+  submitCallback = callback;
+};
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetCallback();
+});
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  pristine.validate();
+
+  const isValid = pristine.validate();
+  if (isValid) {
+    const formData = new FormData(adForm);
+    submitCallback(formData);
+  }
 });
+
+
+export {
+  enable,
+  disable,
+  reset,
+  renderAddressInput,
+  setResetHandler,
+  setSubmitHandler,
+};
