@@ -18,8 +18,12 @@ const disable = () => {
   setDisabled(filtersFormElements);
 };
 
+const reset = () => {
+  filtersForm.reset();
+};
 
 export {
   enable,
   disable,
+  reset
 };
