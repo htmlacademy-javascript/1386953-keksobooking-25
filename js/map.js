@@ -1,5 +1,5 @@
 import { renderCard } from './card.js';
-import { renderAddressInput } from './from.js';
+import { renderAddressInput } from './form.js';
 
 
 const INICIAL_COORDINATE = {
@@ -9,15 +9,15 @@ const INICIAL_COORDINATE = {
 const MAP_ZOOM_DEFAULT = 8;
 
 const MAIN_PIN_ICON = L.icon({
-  pathToPic: '../img/main-pin.svg',
-  sizeInPixels: [52, 52],
-  pinTipCoordinates: [26, 52]
+  iconUrl: '../img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52]
 });
 
 const PIN_ICON = L.icon({
-  pathToPic: '../img/pin.svg',
-  sizeInPixels: [40, 40],
-  pinTipCoordinates: [20, 40]
+  iconUrl: '../img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40]
 });
 
 

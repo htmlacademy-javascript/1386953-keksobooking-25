@@ -1,4 +1,4 @@
-const setDisebled = (element) => {
+const setDisabled = (element) => {
   element.disabled = true;
 };
 
@@ -7,6 +7,6 @@ const unsetDisabled = (element) => {
 };
 
 export {
-  setDisebled,
+  setDisabled,
   unsetDisabled
 };
