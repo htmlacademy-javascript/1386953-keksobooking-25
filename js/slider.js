@@ -1,38 +1,42 @@
-const sliderElement = document.querySelector('.ad-form__slider');
-const valueElement = document.querySelector('#price');
-const resetButton = document.querySelector('.ad-form__reset');
+const RANGE_SCOPE = {
+  min: 0,
+  max: 100000
+};
 
-valueElement.value = 5000;
+const RANGE_FREQUENCY = 1;
+const DEFAULT_QUANTITY = 5000;
+const DECIMAL_NUMBER = 10;
 
-noUiSlider.create(sliderElement, {
-  range: {
-    min: 0,
-    max: 100000
-  },
-  start: 5000,
-  step: 1,
+
+const slider = document.querySelector('.ad-form__slider');
+const formInputPrice = document.querySelector('#price');
+
+formInputPrice.value = DEFAULT_QUANTITY;
+
+noUiSlider.create(slider, {
+  range: RANGE_SCOPE,
+  start: DEFAULT_QUANTITY,
+  step: RANGE_FREQUENCY,
   connect: 'lower',
   format: {
-    to: function (value) {
-      return parseInt(value, 10);
-    },
-    from: function (value) {
-      return parseFloat(value);
-    },
+    to: (value) => parseInt(value, DECIMAL_NUMBER),
+    from: (value) => parseFloat(value),
   },
 });
 
-sliderElement.noUiSlider.on('update', () => {
-  valueElement.value = sliderElement.noUiSlider.get();
+slider.noUiSlider.on('update', () => {
+  formInputPrice.value = slider.noUiSlider.get();
 });
 
-resetButton.addEventListener('click', () => {
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 100000,
-    },
-    step: 1
+const reset = () => {
+  slider.noUiSlider.updateOptions({
+    range: RANGE_SCOPE,
+    step: RANGE_FREQUENCY
   });
-  sliderElement.noUiSlider.set(5000);
-});
+  slider.noUiSlider.set(DEFAULT_QUANTITY);
+};
+
+
+export {
+  reset
+};
