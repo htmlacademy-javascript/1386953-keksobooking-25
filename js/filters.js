@@ -1,6 +1,6 @@
 import {
-  setDisebled,
-  unsetDisebled
+  setDisabled,
+  unsetDisabled
 } from './utils/dom.js';
 
 
@@ -10,12 +10,12 @@ const filtersFormElements = filtersForm.querySelectorAll('.map__filter');
 
 const enable = () => {
   filtersForm.classList.remove('map__filters--disabled');
-  unsetDisebled(filtersFormElements);
+  unsetDisabled(filtersFormElements);
 };
 
 const disable = () => {
   filtersForm.classList.add('map__filters--disabled');
-  setDisebled(filtersFormElements);
+  setDisabled(filtersFormElements);
 };
 
 
