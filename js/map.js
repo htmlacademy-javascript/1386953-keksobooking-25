@@ -6,7 +6,7 @@ const INICIAL_COORDINATE = {
   lat: 35.681729,
   lng: 139.753927
 };
-const MAP_ZOOM_DEFAULT = 8;
+const MAP_ZOOM_DEFAULT = 15;
 
 const MAIN_PIN_ICON = L.icon({
   iconUrl: '../img/main-pin.svg',
