@@ -3,7 +3,7 @@ import {
   disable as disableForm,
   reset as resetForm,
   // setResetHandler,
-  // setSubmitHandler
+  setSubmitHandler
 } from './form.js';
 import {
   renderPins,
@@ -19,7 +19,13 @@ import {
 import {
   reset as resetSlider
 } from './slider.js';
-import { loadData } from './utils/api.js';
+import {
+  loadData,
+  sendData
+} from './utils/api.js';
+import {
+  showAlert
+} from './utils/popups.js';
 
 
 const resetPage = () => {
@@ -45,8 +51,12 @@ initMap(() => {
     renderPins(adverts);
   });
 
-  // setSubmitHandler((formData) => {
-  //   sendData(fromData);
-  //   resetPage();
-  // });
+  setSubmitHandler((formData) => {
+    sendData(
+      () => formData(),
+      () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
+      formData
+    );
+    resetPage();
+  });
 });
