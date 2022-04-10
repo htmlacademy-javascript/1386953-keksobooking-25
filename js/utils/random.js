@@ -28,4 +28,10 @@ const getRandomArrayElementToString = (items) =>
 
 const getRandomArrayElements = (items) => items.filter(() => Math.random() > 0.5);
 
-export { getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, getRandomArrayElementToString, getRandomArrayElements };
+export {
+  getRandomPositiveInteger,
+  getRandomPositiveFloat,
+  getRandomArrayElement,
+  getRandomArrayElementToString,
+  getRandomArrayElements
+};

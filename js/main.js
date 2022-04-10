@@ -1,11 +1,62 @@
-import { createAdverts } from './data.js';
-import { renderCard } from './card.js';
-import './form.js';
-import './activity.js';
+import {
+  enable as enableForm,
+  disable as disableForm,
+  reset as resetForm,
+  // setResetHandler,
+  setSubmitHandler
+} from './form.js';
+import {
+  renderPins,
+  reset as resetMap,
+  // clear as crearMap,
+  init as initMap,
+} from './map.js';
+import {
+  enable as enableFilters,
+  disable as disableFilters,
+  reset as resetFilters,
+} from './filters.js';
+import {
+  reset as resetSlider
+} from './slider.js';
+import {
+  loadData,
+  sendData
+} from './utils/api.js';
+import {
+  showAlert
+} from './utils/popups.js';
 
-const map = document.querySelector('.map');
-const mapCanvas = map.querySelector('.map__canvas');
 
-const adverts = createAdverts();
+const resetPage = () => {
+  resetForm();
+  resetMap();
+  resetFilters();
+  resetSlider();
+};
 
-mapCanvas.append(renderCard(adverts[0]));
+let adverts = [];
+
+resetPage();
+disableForm();
+disableFilters();
+
+initMap(() => {
+  enableForm();
+  enableFilters();
+
+  loadData((data) => {
+    adverts = data;
+
+    renderPins(adverts);
+  });
+
+  setSubmitHandler((formData) => {
+    sendData(
+      () => formData(),
+      () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
+      formData
+    );
+    resetPage();
+  });
+});
